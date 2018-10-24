@@ -1,0 +1,87 @@
+var data = {
+  f01: {
+    name: "Alice",
+    age: 15,
+    follows: ["f02", "f03", "f04"]
+  },
+  f02: {
+    name: "Bob",
+    age: 20,
+    follows: ["f05", "f06"]
+  },
+  f03: {
+    name: "Charlie",
+    age: 35,
+    follows: ["f01", "f04", "f06"]
+  },
+  f04: {
+    name: "Debbie",
+    age: 40,
+    follows: ["f01", "f02", "f03", "f05", "f06"]
+  },
+  f05: {
+    name: "Elizabeth",
+    age: 45,
+    follows: ["f04"]
+  },
+  f06: {
+    name: "Finn",
+    age: 25,
+    follows: ["f05"]
+  }
+};
+
+followsAndFollowers();
+
+function followsAndFollowers() {
+  for(var user in data) {
+    var following = [];
+    var followers = [];
+    for(var follow in data[user].follows) {
+      following.push(getUserName(data[user].follows[follow]));
+    }
+    followers = getFollowers(user);
+    console.log(data[user].name + ' follows ' + following.join(', '));
+    console.log(data[user].name + ' is followed by ' + followers.join(', '));
+  }
+}
+
+function getFollowers(id) {
+  var followers = [];
+  for(var user in data) {
+    for(var follows in data[user].follows) {
+      if(data[user].follows[follows] === id) {
+        followers.push(data[user].name);
+      }
+    }
+  }
+  return followers;
+}
+
+function getUserName(id) {
+  return data[id].name;
+}
+
+function mostFollowering() {
+
+}
+
+function mostFollowers() {
+
+}
+
+function mostFollowersOver30() {
+
+}
+
+function mostFollowingOver30() {
+
+}
+
+function listFollowingButNotFollowed() {
+
+}
+
+function reach() {
+
+}
