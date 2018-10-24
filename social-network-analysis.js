@@ -31,7 +31,7 @@ var data = {
   }
 };
 
-followsAndFollowers();
+mostFollowing();
 
 function followsAndFollowers() {
   for(var user in data) {
@@ -69,7 +69,13 @@ function getUserName(id) {
 }
 
 function mostFollowing() {
-
+  var most = 0;
+  for(var user in data) {
+    if(getFollowing(user).length > most) {
+      most = getFollowing(user).length;
+    }
+  }
+  console.log(data[user].name + ' is following the most people with ' + most + '.');
 }
 
 function mostFollowers() {
