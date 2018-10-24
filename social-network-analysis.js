@@ -31,7 +31,7 @@ var data = {
   }
 };
 
-mostFollowing();
+mostFollowers();
 
 function followsAndFollowers() {
   for(var user in data) {
@@ -68,18 +68,30 @@ function getUserName(id) {
   return data[id].name;
 }
 
+// TODO: What if equal
 function mostFollowing() {
   var most = 0;
+  var mostId = '';
   for(var user in data) {
     if(getFollowing(user).length > most) {
       most = getFollowing(user).length;
+      mostId = user;
     }
   }
-  console.log(data[user].name + ' is following the most people with ' + most + '.');
+  console.log(data[mostId].name + ' is following the most people with ' + most + '.');
 }
 
+// TODO: What if equal
 function mostFollowers() {
-
+  var most = 0;
+  var mostId = '';
+  for(var user in data) {
+    if(getFollowers(user).length > most) {
+      most = getFollowers(user).length;
+      mostId = user;
+    }
+  }
+  console.log(data[mostId].name + ' has the most followers with ' + most + '.');
 }
 
 function mostFollowersOver30() {
