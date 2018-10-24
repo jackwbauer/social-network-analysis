@@ -37,13 +37,19 @@ function followsAndFollowers() {
   for(var user in data) {
     var following = [];
     var followers = [];
-    for(var follow in data[user].follows) {
-      following.push(getUserName(data[user].follows[follow]));
-    }
+    following = getFollowing(user);
     followers = getFollowers(user);
     console.log(data[user].name + ' follows ' + following.join(', '));
     console.log(data[user].name + ' is followed by ' + followers.join(', '));
   }
+}
+
+function getFollowing(id) {
+  var following = [];
+  for(var follow in data[id].follows) {
+    following.push(getUserName(data[id].follows[follow]));
+  }
+  return following;
 }
 
 function getFollowers(id) {
@@ -62,7 +68,7 @@ function getUserName(id) {
   return data[id].name;
 }
 
-function mostFollowering() {
+function mostFollowing() {
 
 }
 
