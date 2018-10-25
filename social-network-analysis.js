@@ -31,7 +31,7 @@ var data = {
   }
 };
 
-mostFollowers();
+mostFollowingOver30();
 
 function followsAndFollowers() {
   for(var user in data) {
@@ -44,24 +44,32 @@ function followsAndFollowers() {
   }
 }
 
-function getFollowing(id) {
+function getFollowing(id, age) {
+  age = (age === undefined) ? 0 : age;
   var following = [];
   for(var follow in data[id].follows) {
-    following.push(getUserName(data[id].follows[follow]));
+    if(checkAge(data[id].follows[follow]) > 30) {
+      following.push(getUserName(data[id].follows[follow]));
+    }
   }
   return following;
 }
 
-function getFollowers(id) {
+function getFollowers(id, age) {
+  age = (age === undefined) ? 0 : age;
   var followers = [];
   for(var user in data) {
     for(var follows in data[user].follows) {
-      if(data[user].follows[follows] === id) {
+      if(data[user].follows[follows] === id && checkAge(data[user].follows[follows]) > 30) {
         followers.push(data[user].name);
       }
     }
   }
   return followers;
+}
+
+function checkAge(id) {
+  return data[id].age;
 }
 
 function getUserName(id) {
@@ -95,11 +103,27 @@ function mostFollowers() {
 }
 
 function mostFollowersOver30() {
-
+  var most = 0;
+  var mostId = '';
+  for(var user in data) {
+    if(getFollowers(user).length > most) {
+      most = getFollowers(user).length;
+      mostId = user;
+    }
+  }
+  console.log(data[mostId].name + ' has the most followers over 30 with ' + most + '.');
 }
 
 function mostFollowingOver30() {
-
+  var most = 0;
+  var mostId = '';
+  for(var user in data) {
+    if(getFollowing(user, 30).length > most) {
+      most = getFollowing(user).length;
+      mostId = user;
+    }
+  }
+  console.log(data[mostId].name + ' is following the most people over 30 with ' + most + '.');
 }
 
 function listFollowingButNotFollowed() {
