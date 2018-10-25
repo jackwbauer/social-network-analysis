@@ -31,7 +31,7 @@ var data = {
   }
 };
 
-followingButNotFollowed();
+reach();
 
 //List everyone and for each of them, list the names of who they follow and who follows them
 function followsAndFollowers() {
@@ -49,7 +49,7 @@ function getFollowing(id, age) {
   age = (age === undefined) ? 0 : age;
   var following = [];
   for(var follow in data[id].follows) {
-    if(checkAge(data[id].follows[follow]) > 30) {
+    if(checkAge(data[id].follows[follow]) > age) {
       following.push(getUserName(data[id].follows[follow]));
     }
   }
@@ -61,7 +61,7 @@ function getFollowers(id, age) {
   var followers = [];
   for(var user in data) {
     for(var follows in data[user].follows) {
-      if(data[user].follows[follows] === id && checkAge(data[user].follows[follows]) > 30) {
+      if(data[user].follows[follows] === id && checkAge(data[user].follows[follows]) > age) {
         followers.push(data[user].name);
       }
     }
@@ -151,5 +151,11 @@ function isFollowedBy(id1, id2) {
 
 //List everyone and their reach (sum of # of followers and # of followers of followers)
 function reach() {
-
+  for(var user in data) {
+    var reach = getFollowers(user).length;
+    for(var follow in data[user].follows) {
+      reach += getFollowers(data[user].follows[follow]).length;
+    }
+    console.log(data[user].name + ' has a reach of ' + reach + '.');
+  }
 }
