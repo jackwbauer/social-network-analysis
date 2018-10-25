@@ -45,30 +45,32 @@ function followsAndFollowers() {
   }
 }
 
-function getFollowing(id, age) {
-  age = (age === undefined) ? 0 : age;
+//Requires: user object
+//Returns: list of user objects
+function getFollowing(user, age) {
+  age = age || 0;
   var following = [];
-  for(var follow in data[id].follows) {
-    if(checkAgeById(data[id].follows[follow]) > age) {
-      following.push(getUserName(data[id].follows[follow]));
+  for(var follow in user.follows) {
+    if(checkAgeById(user.follows[follow]) > age) {
+      following.push(getUserName(user.follows[follow]));
     }
   }
   return following;
 }
 
-function getFollowersFromId(id, age) {
-  age = (age === undefined) ? 0 : age;
-  //age = age || 0;
-  var followers = [];
-  for(var user in data) {
-    for(var follows in data[user].follows) {
-      if(data[user].follows[follows] === id && checkAgeById(data[user].follows[follows]) > age) {
-        followers.push(data[user].name);
-      }
-    }
-  }
-  return followers;
-}
+// function getFollowersFromId(id, age) {
+//   age = (age === undefined) ? 0 : age;
+//   //age = age || 0;
+//   var followers = [];
+//   for(var user in data) {
+//     for(var follows in data[user].follows) {
+//       if(data[user].follows[follows] === id && checkAgeById(data[user].follows[follows]) > age) {
+//         followers.push(data[user].name);
+//       }
+//     }
+//   }
+//   return followers;
+// }
 
 //Requires: user object
 //Returns: list of user objects
@@ -109,33 +111,44 @@ function getUserFromId(id) {
 //Identify who follows the most people
 function mostFollowing() {
   var most = 0;
-  var mostId = '';
+  var mostUsers = [];
   for(var user in data) {
-    if(getFollowing(user).length > most) {
-      most = getFollowing(user).length;
-      mostId = user;
+    if(getFollowing(data[user]).length > most) {
+      mostUsers = [data[user].name];
+      most = getFollowing(data[user]).length;
+    } else if(getFollowing(data[user]).length === most) {
+      mostUsers.push(data[user].name);
     }
   }
-  console.log(data[mostId].name + ' is following the most people with ' + most + '.');
+  if(mostUsers.length > 1) {
+    console.log(`${mostUsers.join(', ')} are following the most people with ${most}.`);
+  } else {
+    console.log(`${mostUsers.join(', ')} is following the most people with ${most}.`);
+  }
 }
 
 // TODO: What if equal
 //Identify who has the most followers
 function mostFollowers() {
   var most = 0;
-  var mostUser = {};
+  var mostUsers = [];
   for(var user in data) {
     var followers = getFollowers(data[user]);
     if(followers.length > most) {
       most = followers.length;
-      mostUser = data[user];
+      mostUsers = [data[user].name];
+    } else if(followers.length === most) {
+      mostUsers.push(data[user].name);
     }
   }
-  console.log(`${mostUser.name} has the most followers with ${most}.`);
-  // console.log(mostUser.name + ' has the most followers with ' + most + '.');
+  if(mostUsers.length > 1) {
+    console.log(`${mostUsers.join(', ')} are following the most people with ${most}.`);
+  } else {
+    console.log(`${mostUsers.join(', ')} is following the most people with ${most}.`);
+  }
 }
 
-mostFollowers();
+mostFollowing();
 
 //TODO: Utilize callbacks for over 30, refactor getFollowersFromId to not need age
 //Identify who has the most followers over 30
@@ -143,8 +156,9 @@ function mostFollowersOver30() {
   var most = 0;
   var mostId = '';
   for(var user in data) {
-    if(getFollowersFromId(user).length > most) {
-      most = getFollowersFromId(user, 30).length;
+    var followers = getFollowers(data[user], 30);
+    if(followers.length > most) {
+      most = followers.length;
       mostId = user;
     }
   }
