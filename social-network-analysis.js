@@ -111,7 +111,7 @@ function mostFollowersOver30() {
   var mostId = '';
   for(var user in data) {
     if(getFollowers(user).length > most) {
-      most = getFollowers(user).length;
+      most = getFollowers(user, 30).length;
       mostId = user;
     }
   }
@@ -154,7 +154,8 @@ function reach() {
   for(var user in data) {
     var reach = getFollowers(user).length;
     for(var follow in data[user].follows) {
-      reach += getFollowers(data[user].follows[follow]).length;
+      var follwerfollowers = getFollowers(data[user].follows[follow]).length;
+      reach += follwerfollowers;
     }
     console.log(data[user].name + ' has a reach of ' + reach + '.');
   }
