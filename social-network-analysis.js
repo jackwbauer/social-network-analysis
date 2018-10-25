@@ -31,8 +31,9 @@ var data = {
   }
 };
 
-mostFollowingOver30();
+followingButNotFollowed();
 
+//List everyone and for each of them, list the names of who they follow and who follows them
 function followsAndFollowers() {
   for(var user in data) {
     var following = [];
@@ -77,6 +78,7 @@ function getUserName(id) {
 }
 
 // TODO: What if equal
+//Identify who follows the most people
 function mostFollowing() {
   var most = 0;
   var mostId = '';
@@ -90,6 +92,7 @@ function mostFollowing() {
 }
 
 // TODO: What if equal
+//Identify who has the most followers
 function mostFollowers() {
   var most = 0;
   var mostId = '';
@@ -102,6 +105,7 @@ function mostFollowers() {
   console.log(data[mostId].name + ' has the most followers with ' + most + '.');
 }
 
+//Identify who has the most followers over 30
 function mostFollowersOver30() {
   var most = 0;
   var mostId = '';
@@ -114,6 +118,7 @@ function mostFollowersOver30() {
   console.log(data[mostId].name + ' has the most followers over 30 with ' + most + '.');
 }
 
+//Identify who follows the most people over 30
 function mostFollowingOver30() {
   var most = 0;
   var mostId = '';
@@ -126,10 +131,25 @@ function mostFollowingOver30() {
   console.log(data[mostId].name + ' is following the most people over 30 with ' + most + '.');
 }
 
-function listFollowingButNotFollowed() {
-
+//List those who follow someone that doesn't follow them back
+function followingButNotFollowed() {
+  var unfollowed = [];
+  for(var user in data) {
+    for(var follow in data[user].follows) {
+      if(!isFollowedBy(user, data[user].follows[follow]) && !unfollowed.includes(getUserName(user))) {
+        unfollowed.push(getUserName(user));
+      }
+    }
+  }
+  console.log(unfollowed);
 }
 
+function isFollowedBy(id1, id2) {
+  var followers = getFollowers(id2);
+  return followers.includes(getUserName(id1));
+}
+
+//List everyone and their reach (sum of # of followers and # of followers of followers)
 function reach() {
 
 }
