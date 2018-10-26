@@ -148,8 +148,6 @@ function mostFollowers() {
   }
 }
 
-mostFollowing();
-
 //TODO: Utilize callbacks for over 30, refactor getFollowersFromId to not need age
 //Identify who has the most followers over 30
 function mostFollowersOver30() {
@@ -197,17 +195,17 @@ function followingButNotFollowed() {
   var unfollowed = [];
   for(var user in data) {
     for(var follow in data[user].follows) {
-      if(!isFollowedBy(user, data[user].follows[follow]) && !unfollowed.includes(getUserName(user))) {
+      if(!isFollowedBy(data[user], getUserName(data[user].follows[follow])) && !unfollowed.includes(getUserName(user))) {
+        console.log(`${data[user].name} is not followed by ${getUserName(data[user].follows[follow])}.`);
         unfollowed.push(getUserName(user));
       }
     }
   }
-  console.log(unfollowed);
 }
 
-function isFollowedBy(id1, id2) {
-  var followers = getFollowersFromId(id2);
-  return followers.includes(getUserName(id1));
+function isFollowedBy(user, id2) {
+  var followers = getFollowers(id2);
+  return followers.includes(user.name);
 }
 
 //List everyone and their reach (sum of # of followers and # of followers of followers)
@@ -222,3 +220,5 @@ function reach() {
     // console.log(data[user].name + ' has a reach of ' + reach + '.');
   }
 }
+
+followingButNotFollowed();
