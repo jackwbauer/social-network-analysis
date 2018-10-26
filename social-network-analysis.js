@@ -203,9 +203,9 @@ function followingButNotFollowed() {
   }
 }
 
-function isFollowedBy(user, id2) {
-  var followers = getFollowers(id2);
-  return followers.includes(user.name);
+function isFollowedBy(user1, user2) {
+  var followers = getFollowers(user2);
+  return followers.includes(user1.name);
 }
 
 //List everyone and their reach (sum of # of followers and # of followers of followers)
