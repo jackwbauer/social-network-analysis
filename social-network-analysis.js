@@ -216,10 +216,11 @@ function reach() {
     var reach = getFollowers(data[user]);
     for(var follow in data[user].follows) {
       var followers = getFollowers(data[data[user].follows[follow]]);
-      reach.push(follower);
+      reach = reach.concat(followers);
     }
-    console.log(`${data[user].name} has a reach of ${reach}.`);
+    var uniqueUsernames = reach.filter(function (item, index) {
+      return reach.indexOf(item) >= index && reach[index] !== data[user];
+    });
+    console.log(`${data[user].name} has a reach of ${uniqueUsernames.length}.`);
   }
 }
-
-reach();
