@@ -154,37 +154,42 @@ mostFollowing();
 //Identify who has the most followers over 30
 function mostFollowersOver30() {
   var most = 0;
-  var mostId = '';
+  var mostUsers = [];
   for(var user in data) {
     var followers = getFollowers(data[user], 30);
     if(followers.length > most) {
       most = followers.length;
-      mostId = user;
+      mostUsers = [data[user].name];
+    } else if(followers.length === most) {
+      mostUsers.push(data[user].name);
     }
   }
-  console.log(data[mostId].name + ' has the most followers over 30 with ' + most + '.');
+  if(mostUsers.length > 0) {
+    console.log(`${mostUsers.join(', ')} have the most followers over 30 with ${most}.`);
+  } else {
+    console.log(`${mostUsers.join(', ')} has the most followers over 30 with ${most}.`);
+  }
 }
 
 //TODO: Utilize callbacks for over 30, refactor getFollowing to not need age
 //Identify who follows the most people over 30
 function mostFollowingOver30() {
   var most = 0;
-  var mostId = '';
+  var mostUsers = [];
   for(var user in data) {
-    // var following = getFollowing(user);
-    // var followingOver30 = list.map(function(getfollowing) {
-    //   while(following.length--) {
-    //     if(user.age > 30) {
-    //       return user;
-    //     }
-    //   }
-    // });
-    if(getFollowing(user, 30).length > most) {
-      most = getFollowing(user).length;
-      mostId = user;
+    var following = getFollowing(data[user], 30);
+    if(following.length > most) {
+      mostUsers = [data[user].name];
+      most = following.length;
+    } else if(following.length === most) {
+      mostUsers.push(data[user].name);
     }
   }
-  console.log(data[mostId].name + ' is following the most people over 30 with ' + most + '.');
+  if(mostUsers.length > 0) {
+    console.log(`${mostUsers.join(', ')} are following the most people over 30 with ${most}.`);
+  } else {
+    console.log(`${mostUsers.join(', ')} is following the most people over 30 with ${most}.`);
+  }
 }
 
 //List those who follow someone that doesn't follow them back
@@ -213,6 +218,7 @@ function reach() {
       var follwerfollowers = getFollowersFromId(data[user].follows[follow]).length;
       reach += follwerfollowers;
     }
-    console.log(data[user].name + ' has a reach of ' + reach + '.');
+    console.log(`${data[user].name} has a reach of ${reach}.`);
+    // console.log(data[user].name + ' has a reach of ' + reach + '.');
   }
 }
