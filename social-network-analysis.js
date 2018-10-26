@@ -203,6 +203,8 @@ function followingButNotFollowed() {
   }
 }
 
+//Requires: 2 user objects
+//Returns: boolean of if user2 follows user1
 function isFollowedBy(user1, user2) {
   var followers = getFollowers(user2);
   return followers.includes(user1.name);
@@ -211,14 +213,13 @@ function isFollowedBy(user1, user2) {
 //List everyone and their reach (sum of # of followers and # of followers of followers)
 function reach() {
   for(var user in data) {
-    var reach = getFollowersFromId(user).length;
+    var reach = getFollowers(data[user]);
     for(var follow in data[user].follows) {
-      var follwerfollowers = getFollowersFromId(data[user].follows[follow]).length;
-      reach += follwerfollowers;
+      var followers = getFollowers(data[data[user].follows[follow]]);
+      reach.push(follower);
     }
     console.log(`${data[user].name} has a reach of ${reach}.`);
-    // console.log(data[user].name + ' has a reach of ' + reach + '.');
   }
 }
 
-followingButNotFollowed();
+reach();
